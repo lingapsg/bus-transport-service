@@ -27,7 +27,7 @@ $ mvn spring-boot:run
 To run the application as a java application with the same Spring profile, you can
 
 ```
-$ java -jar transport-service-1.0.0-SNAPSHOT.jar 
+$ java -jar bus-transport-service-1.0.0-SNAPSHOT.jar 
 ```
 
 ## Exposed endpoints
