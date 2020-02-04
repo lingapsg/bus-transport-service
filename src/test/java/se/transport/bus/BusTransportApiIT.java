@@ -56,7 +56,7 @@ public class BusTransportApiIT {
 
         Thread.sleep(3000);
 
-        Assertions.assertTrue(hazelcastInstance.getMap("bus-line").isEmpty());
+        Assertions.assertTrue(hazelcastInstance.getMap("journey-points").isEmpty());
     }
 
     @Test
@@ -94,7 +94,7 @@ public class BusTransportApiIT {
     }
 
     @Test
-    public void givenRequestWithLineNumber_whenGetBusStops_thenSuccessfulResponse() {
+    public void givenRequestWithLineNumber_whenGetBusStops_thenSuccessfulResponse() throws InterruptedException {
         mockBackendWithFile("GET", "/", 200, "jour", MediaType.APPLICATION_JSON_VALUE, "JourneyPoint.json");
         mockBackendWithFile("GET", "/", 200, "stop", MediaType.APPLICATION_JSON_VALUE, "Stop.json");
 
@@ -104,6 +104,11 @@ public class BusTransportApiIT {
                 .expectStatus().isOk()
                 .expectBody().jsonPath("$.lineNumber").isNotEmpty()
                 .jsonPath("$.busStops").isNotEmpty();
+
+
+        Thread.sleep(3000);
+
+        Assertions.assertTrue(hazelcastInstance.getMap("bus-stops").isEmpty());
     }
 
     @Test

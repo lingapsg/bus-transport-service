@@ -1,9 +1,6 @@
 package se.transport.bus.config;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
-import io.netty.handler.ssl.SslContext;
-import io.netty.handler.ssl.SslContextBuilder;
-import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -25,11 +22,8 @@ public class WebClientConfiguration {
     @Qualifier("backendClient")
     public WebClient backendWebClientBuilder(TrafikLabProperties trafikLabProperties) throws SSLException {
 
-        SslContext sslContext = SslContextBuilder.forClient().trustManager(InsecureTrustManagerFactory.INSTANCE).build();
-
         HttpClient httpClient = HttpClient.create()
                 .wiretap(true)
-                .secure(sslContextSpec -> sslContextSpec.sslContext(sslContext))
                 .compress(true);
 
         return WebClient.builder()
