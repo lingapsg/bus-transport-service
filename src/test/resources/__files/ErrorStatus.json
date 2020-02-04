@@ -1,0 +1,95 @@
+{
+  "StatusCode": 17001,
+  "Message": null,
+  "ExecutionTime": 0,
+  "ResponseData": {
+    "Version": "2020-02-03 00:07",
+    "Type": "JourneyPatternPointOnLine",
+    "Result": [
+      {
+        "LineNumber": "1",
+        "DirectionCode": "1",
+        "JourneyPatternPointNumber": "10008",
+        "LastModifiedUtcDateTime": "2018-02-16 00:00:00.000",
+        "ExistsFromDate": "2018-02-16 00:00:00.000"
+      },
+      {
+        "LineNumber": "1",
+        "DirectionCode": "1",
+        "JourneyPatternPointNumber": "10012",
+        "LastModifiedUtcDateTime": "2012-06-23 00:00:00.000",
+        "ExistsFromDate": "2012-06-23 00:00:00.000"
+      },
+      {
+        "LineNumber": "1",
+        "DirectionCode": "1",
+        "JourneyPatternPointNumber": "10014",
+        "LastModifiedUtcDateTime": "2018-08-20 00:00:00.000",
+        "ExistsFromDate": "2018-08-20 00:00:00.000"
+      },
+      {
+        "LineNumber": "1",
+        "DirectionCode": "1",
+        "JourneyPatternPointNumber": "10016",
+        "LastModifiedUtcDateTime": "2013-12-19 00:00:00.000",
+        "ExistsFromDate": "2013-12-19 00:00:00.000"
+      },
+      {
+        "LineNumber": "1",
+        "DirectionCode": "1",
+        "JourneyPatternPointNumber": "10024",
+        "LastModifiedUtcDateTime": "2013-12-19 00:00:00.000",
+        "ExistsFromDate": "2013-12-19 00:00:00.000"
+      },
+      {
+        "LineNumber": "1",
+        "DirectionCode": "1",
+        "JourneyPatternPointNumber": "10034",
+        "LastModifiedUtcDateTime": "2012-06-23 00:00:00.000",
+        "ExistsFromDate": "2012-06-23 00:00:00.000"
+      },
+      {
+        "LineNumber": "1",
+        "DirectionCode": "1",
+        "JourneyPatternPointNumber": "10038",
+        "LastModifiedUtcDateTime": "2014-05-06 00:00:00.000",
+        "ExistsFromDate": "2014-05-06 00:00:00.000"
+      },
+      {
+        "LineNumber": "1",
+        "DirectionCode": "1",
+        "JourneyPatternPointNumber": "10042",
+        "LastModifiedUtcDateTime": "2012-06-23 00:00:00.000",
+        "ExistsFromDate": "2012-06-23 00:00:00.000"
+      },
+      {
+        "LineNumber": "1",
+        "DirectionCode": "1",
+        "JourneyPatternPointNumber": "10044",
+        "LastModifiedUtcDateTime": "2012-06-23 00:00:00.000",
+        "ExistsFromDate": "2012-06-23 00:00:00.000"
+      },
+      {
+        "LineNumber": "1",
+        "DirectionCode": "1",
+        "JourneyPatternPointNumber": "10053",
+        "LastModifiedUtcDateTime": "2012-06-23 00:00:00.000",
+        "ExistsFromDate": "2012-06-23 00:00:00.000"
+      },
+      {
+        "LineNumber": "1",
+        "DirectionCode": "1",
+        "JourneyPatternPointNumber": "10055",
+        "LastModifiedUtcDateTime": "2013-12-19 00:00:00.000",
+        "ExistsFromDate": "2013-12-19 00:00:00.000"
+      },
+      {
+        "LineNumber": "1",
+        "DirectionCode": "1",
+        "JourneyPatternPointNumber": "10057",
+        "LastModifiedUtcDateTime": "2012-06-23 00:00:00.000",
+        "ExistsFromDate": "2012-06-23 00:00:00.000"
+      }
+    ]
+  }
+}
