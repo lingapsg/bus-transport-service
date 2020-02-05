@@ -1,11 +1,5 @@
 package se.transport.bus.client;
 
-import se.transport.bus.client.response.BaseResponse;
-import se.transport.bus.client.response.JourneyPatternPointResponse;
-import se.transport.bus.client.response.StopPoint;
-import se.transport.bus.config.TrafikLabProperties;
-import se.transport.bus.exception.HttpIntegrationException;
-import se.transport.bus.service.HazelcastCacheService;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.reactor.circuitbreaker.operator.CircuitBreakerOperator;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +11,12 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+import se.transport.bus.client.response.BaseResponse;
+import se.transport.bus.client.response.JourneyPatternPointResponse;
+import se.transport.bus.client.response.StopPoint;
+import se.transport.bus.config.TrafikLabProperties;
+import se.transport.bus.exception.HttpIntegrationException;
+import se.transport.bus.service.HazelcastCacheService;
 
 import java.util.Optional;
 
@@ -50,12 +50,9 @@ public class TrafikLabWebClient {
         MultiValueMap<String, String> queryMap = new LinkedMultiValueMap<>();
         queryMap.add(MODEL, JOURNEY_KEY);
         return cacheService.findFromCache("journey-points", JOURNEY_KEY,
-                callTrafikLabApi(queryMap, "journey pattern")
-                        .bodyToMono(new ParameterizedTypeReference<BaseResponse<JourneyPatternPointResponse>>() {
-                        })
-                        .transform(journeyCircuitBreakerOperator)
+                callTrafikLabApi(queryMap, "journey pattern", new ParameterizedTypeReference<BaseResponse<JourneyPatternPointResponse>>() {
+                }, journeyCircuitBreakerOperator)
                         .doOnError(throwable -> log.error("error from backend getJourneyPatternPoints", throwable))
-                        .doOnSuccess(journeyPatternPointResponse -> validateResponse(journeyPatternPointResponse.getStatusCode()))
         );
     }
 
@@ -64,16 +61,15 @@ public class TrafikLabWebClient {
         MultiValueMap<String, String> queryMap = new LinkedMultiValueMap<>();
         queryMap.add(MODEL, STOP_KEY);
         return cacheService.findFromCache("bus-stops", STOP_KEY,
-                callTrafikLabApi(queryMap, "stop points")
-                        .bodyToMono(new ParameterizedTypeReference<BaseResponse<StopPoint>>() {
-                        })
-                        .transform(stopCircuitBreakerOperator)
+                callTrafikLabApi(queryMap, "stop points", new ParameterizedTypeReference<BaseResponse<StopPoint>>() {
+                }, stopCircuitBreakerOperator)
                         .doOnError(throwable -> log.error("error from backend getStopPoints", throwable))
-                        .doOnSuccess(stopPoints -> validateResponse(stopPoints.getStatusCode()))
         );
     }
 
-    private WebClient.ResponseSpec callTrafikLabApi(MultiValueMap<String, String> queryMap, String operation) {
+    private <T> Mono<BaseResponse<T>> callTrafikLabApi(MultiValueMap<String, String> queryMap,
+                                                       String operation, ParameterizedTypeReference<BaseResponse<T>> typeReference,
+                                                       CircuitBreakerOperator<BaseResponse<T>> circuitBreakerOperator) {
         queryMap.add("key", trafikLabProperties.getApiKey());
         queryMap.add("DefaultTransportModeCode", "BUS");
         return backendWebClient
@@ -85,7 +81,10 @@ public class TrafikLabWebClient {
                 .onStatus(HttpStatus::isError, clientResponse -> clientResponse.bodyToMono(String.class).flatMap(error -> {
                     log.error("Error while getting {} : {}", operation, error);
                     return Mono.error(new HttpIntegrationException(error));
-                }));
+                }))
+                .bodyToMono(typeReference)
+                .transform(circuitBreakerOperator)
+                .doOnSuccess(response -> validateResponse(response.getStatusCode()));
     }
 
     private void validateResponse(Integer statusCode) {

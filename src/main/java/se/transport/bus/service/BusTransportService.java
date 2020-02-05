@@ -33,7 +33,7 @@ public class BusTransportService {
 
     private List<BusLine> findTopMostBusLines(List<JourneyPatternPointResponse> journeyPoints, Long queryLimit) {
         return journeyPoints
-                .parallelStream()
+                .stream()
                 .collect(
                         Collectors.collectingAndThen(
                                 Collectors.groupingBy(JourneyPatternPointResponse::getLineNumber, Collectors.groupingBy(JourneyPatternPointResponse::getDirectionCode)), // group by line number and direction
@@ -42,11 +42,11 @@ public class BusTransportService {
                                         .stream()
                                         .sorted((o1, o2) -> Integer.compare(o2.getValue()
                                                         .values()
-                                                        .parallelStream()
+                                                        .stream()
                                                         .map(List::size)
                                                         .reduce(Integer::sum).orElseThrow(() -> new InternalServerError("Error while grouping journey points")),
                                                 o1.getValue().values()
-                                                        .parallelStream()
+                                                        .stream()
                                                         .map(List::size)
                                                         .reduce(Integer::sum).orElseThrow(() -> new InternalServerError("Error while grouping journey points")))
                                         ) // sort reverse order
@@ -82,7 +82,7 @@ public class BusTransportService {
                 trafikLabWebClient.getJourneyPatternPoints()
                         .flatMap(response -> {
                             List<JourneyPatternPointResponse> journeyPatternPoints = response.getResponseData().getResult()
-                                    .parallelStream()
+                                    .stream()
                                     .filter(pattern -> pattern.getLineNumber().equals(lineNumber))
                                     .collect(Collectors.toList());
 
