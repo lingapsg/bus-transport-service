@@ -1,7 +1,10 @@
 # Bus Transport Service
 
 This repository contains implementation of SL bus transport service. It includes functionality to find top most bus lines with maximum stops and find
- bus stops for the given bus line.
+ bus stops for the given bus line. It exposes the following 2 APIs.
+ 
+ * find bus lines with maximum stops
+ * find bus stops for the given bus line
  
 ## Building
 
@@ -34,3 +37,14 @@ $ java -jar bus-transport-service-1.0.0-SNAPSHOT.jar
 
 The application currently exposes its API specification in <http://localhost:8081/swagger-ui.html> or <http://localhost:8081/v2/api-docs> if you prefer the API JSON model.
 
+## Libraries Used
+
+* Java 8
+* Spring boot 2
+* Hazelcast
+* Resilience4j
+
+## Testing tools
+
+* Wiremock
+* Spring WebTestClient
